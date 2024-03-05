@@ -24,6 +24,7 @@ export default async function main() {
   const customTag = core.getInput('custom_tag');
   const releaseBranches = core.getInput('release_branches');
   const preReleaseBranches = core.getInput('pre_release_branches');
+  const appendedToProductionTag = core.getInput('append_to_production_tag');
   const appendToPreReleaseTag = core.getInput('append_to_pre_release_tag');
   const createAnnotatedTag = /true/i.test(
     core.getInput('create_annotated_tag')
@@ -182,6 +183,11 @@ export default async function main() {
     }
 
     newVersion = incrementedVersion;
+
+    if (appendedToProductionTag) {
+      newVersion += `-${appendedToProductionTag}`;
+    }
+
   }
 
   core.info(`New version is ${newVersion}.`);
